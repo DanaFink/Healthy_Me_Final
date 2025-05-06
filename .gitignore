@@ -1,0 +1,11 @@
+
+# Project exclude paths
+/.gradle/
+/app/build/
+/app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
+/MODEL/build/
+/MODEL/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
+/REPOSITORY/build/
+/REPOSITORY/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
+/VIEWMODEL/build/
+/VIEWMODEL/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/

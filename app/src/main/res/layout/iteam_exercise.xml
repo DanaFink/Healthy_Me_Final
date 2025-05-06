@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvEquipment"
+        android:layout_width="169dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="16dp"
+        android:text="equipment"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toEndOf="@id/imgGIF"
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+    <ImageView
+        android:id="@+id/imgGIF"
+        android:layout_width="169dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_bi_thumb" />
+
+    <TextView
+        android:id="@+id/tvBodyPart"
+        android:layout_width="169dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="16dp"
+        android:text="bodypart"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toEndOf="@id/imgGIF"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTarget"
+        android:layout_width="169dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        android:text="target"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toEndOf="@id/imgGIF"
+        app:layout_constraintTop_toBottomOf="@id/tvEquipment" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="169dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:text="name"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/imgGIF"
+        app:layout_constraintTop_toBottomOf="@id/tvBodyPart" />
+
+    <TextView
+        android:id="@+id/tvInstructions"
+        android:layout_width="383dp"
+        android:layout_height="181dp"
+        android:layout_marginBottom="16dp"
+        android:text="instructions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTarget"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
