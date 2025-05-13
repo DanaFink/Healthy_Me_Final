@@ -54,6 +54,8 @@ public class NutritionActivity extends BaseActivity implements EntryValidation {
     private PieChart pieChart;
     private TextView tvCaloriesGoal;
 
+    private Nutrients savedNutrients;
+
 
     private MealPlanViewModel viewModel;
     private CustomerViewModel customerViewModel;
@@ -96,6 +98,10 @@ public class NutritionActivity extends BaseActivity implements EntryValidation {
         tvCaloriesGoal = findViewById(R.id.tvCaloriesGoal);
         int calories = BaseActivity.currentMember.getHealthProfile().getDailyCalorieGoal();
         tvCaloriesGoal.setText("Calorie Goal: " + calories);
+        savedNutrients = BaseActivity.currentMember.getSavedNutrients();
+        if (savedNutrients != null && (int) savedNutrients.getCalories() != calories) {
+            showRecalculateMealPlanDialog();
+        }
 
         spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -107,6 +113,19 @@ public class NutritionActivity extends BaseActivity implements EntryValidation {
         spinner.setAdapter(adapter);
 
 
+    }
+    private void showRecalculateMealPlanDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Calorie Goal Changed")
+                .setMessage("Your calorie goal has changed. Would you like to generate a new meal plan to match?")
+                .setPositiveButton("Generate Now", (dialog, which) -> {
+                    String selectedDiet = spinner.getSelectedItem().toString();
+                    String excludeText = etExclude.getText().toString();
+                    viewModel.fetchMealPlan(BaseActivity.currentMember.getHealthProfile().getDailyCalorieGoal(), selectedDiet, excludeText);
+                })
+                .setNegativeButton("Later", null)
+                .show();
+        savedNutrients=BaseActivity.currentMember.getSavedNutrients();
     }
 
     @Override

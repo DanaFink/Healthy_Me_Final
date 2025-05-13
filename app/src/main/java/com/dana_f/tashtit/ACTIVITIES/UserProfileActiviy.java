@@ -68,6 +68,8 @@ public class UserProfileActiviy extends BaseActivity implements EntryValidation 
 
     protected void fillInfo() {
         HealthProfile profile = BaseActivity.currentMember.getHealthProfile();
+        boolean resetCalories = getIntent().getBooleanExtra("RESET_CALORIES", false);
+
         if (profile != null) {
             etAge.setText(String.valueOf(profile.getAge()));
             etHeight.setText(String.valueOf(profile.getHeightCm()));
@@ -75,6 +77,13 @@ public class UserProfileActiviy extends BaseActivity implements EntryValidation 
             etDailyCalories.setText(String.valueOf(profile.getDailyCalorieGoal()));
             int genderIndex = genderAdapter.getPosition(profile.getGender());
             spinnerGender.setSelection(Math.max(genderIndex, 0));
+
+            if (resetCalories) {
+                etDailyCalories.setText(""); // force recalculation on save
+                profile.setDailyCalorieGoal(0); // update the model as well
+            } else {
+                etDailyCalories.setText(String.valueOf(profile.getDailyCalorieGoal()));
+            }
         }
     }
 

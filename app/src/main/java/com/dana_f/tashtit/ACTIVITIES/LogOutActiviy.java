@@ -65,6 +65,12 @@ public class LogOutActiviy extends BaseActivity implements EntryValidation {
     protected void initializeViews() {
         profileImage = findViewById(R.id.profileImage);
 
+        String base64Image = BaseActivity.currentMember.getImg();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            Bitmap bitmap = BitMapHelper.decodeBase64(base64Image);
+            profileImage.setImageBitmap(bitmap);
+        }
+
         tvName = findViewById(R.id.tvName);
         tvName.setText("Name: " + BaseActivity.currentMember.getName());
 
@@ -82,7 +88,9 @@ public class LogOutActiviy extends BaseActivity implements EntryValidation {
         btnChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LogOutActiviy.this, UserProfileActiviy.class));
+                Intent intent = new Intent(LogOutActiviy.this, UserProfileActiviy.class);
+                intent.putExtra("RESET_CALORIES", true);
+                startActivity(intent);
                 finish();
 
             }
