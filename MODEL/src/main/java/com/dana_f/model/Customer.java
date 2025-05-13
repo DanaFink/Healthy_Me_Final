@@ -18,6 +18,10 @@ public class Customer extends BaseEntity implements Serializable {
     private HealthProfile healthProfile;
     private List<CalorieEntry> calorieHistory;
     private boolean bmiCompleted;
+
+    private MealPlanResponse savedMealPlan;
+
+
     private List<Meal> savedMeals;
     private Nutrients savedNutrients;
 

@@ -55,6 +55,26 @@
                 android:text="Servings: 2"
                 android:textColor="#444444"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textViewCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Calories: 600"
+                android:textColor="#444444"
+                android:textSize="14sp" />
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:textSize="12sp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="true" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

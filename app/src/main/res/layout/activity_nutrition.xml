@@ -7,6 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".ACTIVITIES.NutritionActivity">
 
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/progressCalories"
+        android:layout_width="176dp"
+        android:layout_height="157dp"
+        android:layout_gravity="center"
+        android:max="100"
+        android:progress="0"
+        app:donut_finished_color="#FF5722"
+        app:donut_max="100"
+        app:donut_progress="0"
+        app:donut_text="0%"
+        app:donut_text_color="#000000"
+        app:donut_text_size="20sp"
+        app:donut_unfinished_color="#CCCCCC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.59"
+        app:layout_constraintStart_toEndOf="@+id/pieChart"
+        app:layout_constraintTop_toBottomOf="@+id/etExclude" />
 
     <Button
         android:id="@+id/btnGenrate"
@@ -24,11 +42,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMeals"
-        android:layout_width="396dp"
-        android:layout_height="380dp"
+        android:layout_width="328dp"
+        android:layout_height="290dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 
@@ -58,8 +75,8 @@
 
     <EditText
         android:id="@+id/etExclude"
-        android:layout_width="173dp"
-        android:layout_height="49dp"
+        android:layout_width="172dp"
+        android:layout_height="41dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
@@ -85,24 +102,12 @@
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
-        android:layout_width="183dp"
-        android:layout_height="189dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="165dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <TextView
-        android:id="@+id/tvCaloriesGoal"
-        android:layout_width="125dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="40dp"
-        android:text="calories"
-        android:textColor="#009688"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toEndOf="@+id/pieChart"
-        app:layout_constraintTop_toBottomOf="@+id/etExclude" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

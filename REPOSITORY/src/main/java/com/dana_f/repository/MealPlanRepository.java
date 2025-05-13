@@ -15,6 +15,10 @@ public class MealPlanRepository {
         apiClient.getDailyMealPlan(targetCalories, diet, exclude, callback);
     }
 
+    public void getMealInformation(int mealId, Callback callback) {
+        apiClient.getMealInformation(mealId, callback);
+    }
+
     public MealPlanResponse parseMealPlanResponse(String json) {
         return gson.fromJson(json, MealPlanResponse.class);
     }

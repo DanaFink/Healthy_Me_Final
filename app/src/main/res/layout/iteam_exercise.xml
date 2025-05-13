@@ -1,79 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
 
-    <TextView
-        android:id="@+id/tvEquipment"
-        android:layout_width="169dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:text="equipment"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toEndOf="@id/imgGIF"
-        app:layout_constraintTop_toBottomOf="@id/tvName" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imgGIF"
-        android:layout_width="169dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_bi_thumb" />
+        <ImageView
+            android:id="@+id/imgGIF"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Exercise Image"
+            android:src="@drawable/back_bi_thumb" />
 
-    <TextView
-        android:id="@+id/tvBodyPart"
-        android:layout_width="169dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:text="bodypart"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toEndOf="@id/imgGIF"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvBodyPart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Body Part: waist"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/tvTarget"
-        android:layout_width="169dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="12dp"
-        android:text="target"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toEndOf="@id/imgGIF"
-        app:layout_constraintTop_toBottomOf="@id/tvEquipment" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: 3/4 sit-up"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="169dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
-        android:text="name"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/imgGIF"
-        app:layout_constraintTop_toBottomOf="@id/tvBodyPart" />
+        <TextView
+            android:id="@+id/tvEquipment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Equipment: body weight"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tvInstructions"
-        android:layout_width="383dp"
-        android:layout_height="181dp"
-        android:layout_marginBottom="16dp"
-        android:text="instructions"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTarget"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/tvTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Target Muscle: abs"
+            android:textSize="16sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Instructions go here..."
+            android:textSize="14sp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

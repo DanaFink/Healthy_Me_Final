@@ -22,7 +22,7 @@ public class SpoonacularApiClient {
 
     private static Request.Builder createBaseRequest() {
         return new Request.Builder()
-                .addHeader("x-rapidapi-key", "cc9604cd22mshd6d6c331182821fp1f22a9jsn4eee6f9da0db")
+                .addHeader("x-rapidapi-key", "8cc51390e1mshbd145b7a8a4d03cp1bfbc3jsn035e30238942")
                 .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
                 .addHeader("Content-Type", "application/json");
     }
