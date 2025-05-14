@@ -8,7 +8,7 @@ public class BasicNutritionResult extends BaseEntity implements Serializable {
     private String status;
     private String food;
     private String serving_size;
-    private Nutrition nutrition; // ✅ renamed from 'data' to match the JSON
+    private Nutrition nutrition; // renamed from 'data' to match the JSON
 
     public BasicNutritionResult() {
     }

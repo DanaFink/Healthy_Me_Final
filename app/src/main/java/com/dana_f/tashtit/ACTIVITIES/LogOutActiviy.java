@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -67,8 +68,13 @@ public class LogOutActiviy extends BaseActivity implements EntryValidation {
 
         String base64Image = BaseActivity.currentMember.getImg();
         if (base64Image != null && !base64Image.isEmpty()) {
-            Bitmap bitmap = BitMapHelper.decodeBase64(base64Image);
-            profileImage.setImageBitmap(bitmap);
+            try {
+                Bitmap bitmap = BitMapHelper.decodeBase64(base64Image);
+                profileImage.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.e("ProfileImage", "Failed to decode image", e);
+                Toast.makeText(this, "Could not load profile image", Toast.LENGTH_SHORT).show();
+            }
         }
 
         tvName = findViewById(R.id.tvName);
@@ -157,20 +163,18 @@ public class LogOutActiviy extends BaseActivity implements EntryValidation {
     }
 
     private void uploadImageFromBitmap(Bitmap bitmap) {
-        BaseActivity.currentMember.setImg(BitMapHelper.encodeTobase64(bitmap));
+        Bitmap resized = BitMapHelper.resizeBitmap(bitmap, 512); // Max 512px
+        BaseActivity.currentMember.setImg(BitMapHelper.encodeTobase64(resized));
         viewModel.save(BaseActivity.currentMember);
     }
 
 
     private void uploadImageFromUri(Uri uri) {
         try {
-            // Get Bitmap from URI
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            Bitmap resized = BitMapHelper.resizeBitmap(bitmap, 512); // Max 512px
 
-            // Optionally resize or compress the bitmap if needed here
-
-            // Encode and save
-            BaseActivity.currentMember.setImg(BitMapHelper.encodeTobase64(bitmap));
+            BaseActivity.currentMember.setImg(BitMapHelper.encodeTobase64(resized));
             viewModel.save(BaseActivity.currentMember);
 
         } catch (IOException e) {

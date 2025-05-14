@@ -42,4 +42,21 @@ public class BitMapHelper {
         return (b == null || b.length == 0) ? null : BitmapFactory
                 .decodeByteArray(b, 0, b.length);
     }
+    public static Bitmap resizeBitmap(Bitmap original, int maxSize) {
+        if (original == null) return null;
+
+        int width = original.getWidth();
+        int height = original.getHeight();
+
+        float ratio = (float) width / height;
+        if (ratio > 1) {
+            width = maxSize;
+            height = (int) (width / ratio);
+        } else {
+            height = maxSize;
+            width = (int) (height * ratio);
+        }
+
+        return Bitmap.createScaledBitmap(original, width, height, true);
+    }
 }

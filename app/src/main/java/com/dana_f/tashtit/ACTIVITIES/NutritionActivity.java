@@ -253,8 +253,8 @@ public class NutritionActivity extends BaseActivity implements EntryValidation {
             if (mealPlanResponse != null && mealPlanResponse.getMeals() != null) {
                 BaseActivity.currentMember.setSavedMeals(mealPlanResponse.getMeals());
 
-                BaseActivity.currentMember.setSavedNutrients(mealPlanResponse.getNutrients());  // ✅ Save nutrients
-                customerViewModel.update(BaseActivity.currentMember); // ✅ Persist it
+                BaseActivity.currentMember.setSavedNutrients(mealPlanResponse.getNutrients());  // Save nutrients
+                customerViewModel.update(BaseActivity.currentMember); // Persist it
 
                 mealAdapter.setItems(mealPlanResponse.getMeals());
                 showNutritionChart(mealPlanResponse.getNutrients());

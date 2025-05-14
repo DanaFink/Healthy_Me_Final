@@ -28,7 +28,7 @@ public class MealPlanViewModel extends ViewModel {
 
     private final MutableLiveData<MealPlanResponse> mealPlanLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
-    private MealPlanResponse currentMealPlan;  // 🔹 Holds the most recent plan
+    private MealPlanResponse currentMealPlan;  //  Holds the most recent plan
 
 
     public LiveData<MealPlanResponse> getMealPlanLiveData() {
