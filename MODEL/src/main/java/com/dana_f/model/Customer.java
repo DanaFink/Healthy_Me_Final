@@ -16,7 +16,7 @@ public class Customer extends BaseEntity implements Serializable {
     private String profileImageUrl;
     private String img;
     private HealthProfile healthProfile;
-    private List<CalorieEntry> calorieHistory;
+    // private List<CalorieEntry> calorieHistory;
     private boolean bmiCompleted;
 
     private MealPlanResponse savedMealPlan;
@@ -133,13 +133,13 @@ public class Customer extends BaseEntity implements Serializable {
         this.waterAmount = waterAmount;
     }
 
-    public List<CalorieEntry> getCalorieHistory() {
-        return calorieHistory;
-    }
-
-    public void setCalorieHistory(List<CalorieEntry> calorieHistory) {
-        this.calorieHistory = calorieHistory;
-    }
+//    public List<CalorieEntry> getCalorieHistory() {
+//        return calorieHistory;
+//    }
+//
+//    public void setCalorieHistory(List<CalorieEntry> calorieHistory) {
+//        this.calorieHistory = calorieHistory;
+//    }
 
     @Override
     public boolean equals(Object o) {

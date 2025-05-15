@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:max="100"
         android:progress="0"
-        app:donut_finished_color="#FF5722"
+        app:donut_finished_color="#8FCEEB"
         app:donut_max="100"
         app:donut_progress="0"
         app:donut_text="0%"
