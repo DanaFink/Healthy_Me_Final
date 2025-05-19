@@ -2,11 +2,13 @@ package com.dana_f.tashtit.ACTIVITIES;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,6 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.dana_f.helper.inputValidators.EntryValidation;
 import com.dana_f.model.WorkoutProgram;
 import com.dana_f.tashtit.ACTIVITIES.BASE.BaseActivity;
@@ -86,7 +94,7 @@ public class WorkOutExerciseActivity extends BaseActivity implements EntryValida
 
 
     private void setRecyclerView() {
-        ExericesesAdapter adapter = new ExericesesAdapter(
+         adapter = new ExericesesAdapter(
                 oldWorkout.getExercises(), // List<Exercise>
                 R.layout.iteam_exercise, // Your item layout
                 (view) -> {
@@ -109,7 +117,15 @@ public class WorkOutExerciseActivity extends BaseActivity implements EntryValida
                     tvInstructions.setText(TextUtils.join("\n", exercise.getInstructions()));
 
 
-                    Glide.with(imgGIF.getContext()).load(exercise.getGifUrl()).into(imgGIF);
+                   // Glide.with(imgGIF.getContext()).load(exercise.getGifUrl()).into(imgGIF);
+                   Glide.with(imgGIF.getContext()).load(exercise.getGifUrl()).into(imgGIF);
+                    Log.d("GIF_URL", "Loading: " + exercise.getGifUrl());
+
+
+
+
+
+
                 }
         );
         adapter.setOnItemLongClickListener((exercise, position) -> {

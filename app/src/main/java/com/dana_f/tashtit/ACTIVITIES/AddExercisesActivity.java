@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dana_f.helper.inputValidators.EntryValidation;
+import com.dana_f.model.Customer;
 import com.dana_f.model.Exercise;
 import com.dana_f.model.WorkoutProgram;
 import com.dana_f.tashtit.ACTIVITIES.BASE.BaseActivity;
@@ -33,6 +34,7 @@ import com.dana_f.tashtit.ADPTERS.ExericesesAdapter;
 import com.dana_f.tashtit.R;
 import com.dana_f.viewmodel.CustomerViewModel;
 import com.dana_f.viewmodel.ExerciseViewModel;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,58 +191,55 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
 
 
     private void chooseExistingProgram(Exercise exercise) {
-        // Fetch existing programs from the ViewModel
-        List<WorkoutProgram> existingPrograms = viewModel.getPrograms().getValue();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = BaseActivity.currentMember.getIdFs(); // Adjust if your ID is stored differently
 
-        if (existingPrograms == null || existingPrograms.isEmpty()) {
-            showToast("No existing programs. Please create a new one.");
-            return;
-        }
+        db.collection("Customers") // or "members" if you use that instead
+                .document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Customer customer = documentSnapshot.toObject(Customer.class);
+                        List<WorkoutProgram> existingPrograms = customer.getPrograms();
 
-        // Prepare a list of program names for the dialog
-        String[] programNames = new String[existingPrograms.size()];
-        for (int i = 0; i < existingPrograms.size(); i++) {
-            programNames[i] = existingPrograms.get(i).getTitle();
-        }
-
-        // Show a dialog to choose a program
-        new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Select a Program")
-                .setItems(programNames, (dialog, which) -> {
-                    WorkoutProgram selectedProgram = existingPrograms.get(which);
-
-                    // Add the exercise to the selected program
-                    selectedProgram.getExercises().add(exercise);
-
-                    showToast(exercise.getName() + " added to " + selectedProgram.getTitle());
-
-                    // --- Update Customer ---
-                    if (BaseActivity.currentMember.getPrograms() == null) {
-                        BaseActivity.currentMember.setPrograms(new ArrayList<>());
-                    }
-
-                    boolean found = false;
-                    for (WorkoutProgram program : BaseActivity.currentMember.getPrograms()) {
-                        if (program.getTitle().equals(selectedProgram.getTitle())) {
-                            program.getExercises().add(exercise);
-                            found = true;
-                            break;
+                        if (existingPrograms == null || existingPrograms.isEmpty()) {
+                            showToast("No existing programs. Please create a new one.");
+                            return;
                         }
+
+                        String[] programNames = new String[existingPrograms.size()];
+                        for (int i = 0; i < existingPrograms.size(); i++) {
+                            programNames[i] = existingPrograms.get(i).getTitle();
+                        }
+
+                        new androidx.appcompat.app.AlertDialog.Builder(this)
+                                .setTitle("Select a Program")
+                                .setItems(programNames, (dialog, which) -> {
+                                    WorkoutProgram selectedProgram = existingPrograms.get(which);
+                                    selectedProgram.getExercises().add(exercise);
+
+                                    showToast(exercise.getName() + " added to " + selectedProgram.getTitle());
+
+                                    // Ensure the local member is updated for future use
+                                    BaseActivity.currentMember.setPrograms(existingPrograms);
+
+                                    // Save updated member back to Firestore
+                                    customerViewModel = new CustomerViewModel(getApplication());
+                                    customerViewModel.update(BaseActivity.currentMember);
+                                    customerViewModel.updateCustomerAndRefresh();
+
+                                    showToast("Customer's program updated successfully!");
+                                })
+                                .show();
+                    } else {
+                        showToast("No customer data found.");
                     }
-
-                    if (!found) {
-                        BaseActivity.currentMember.getPrograms().add(selectedProgram);
-                    }
-
-                    // --- Save Updated Customer to Firestore ---
-                    customerViewModel = new CustomerViewModel(getApplication());
-                    customerViewModel.update(BaseActivity.currentMember);
-                    customerViewModel.updateCustomerAndRefresh();
-
-                    showToast("Customer's program updated successfully!");
                 })
-                .show();
+                .addOnFailureListener(e -> {
+                    showToast("Failed to load programs: " + e.getMessage());
+                });
     }
+
 
 
     private void showToast(String message) {

@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -109,35 +110,28 @@ public class ExerciseViewModel extends ViewModel {
 
     private List<WorkoutProgram> buildDefaultPrograms(List<Exercise> list) {
         if (list == null) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
 
-        // ----‑‑‑‑ containers for each program ----‑‑‑‑
-        List<Exercise> core = new java.util.ArrayList<>();   // “Core Blast”
-        List<Exercise> backCable = new java.util.ArrayList<>();  // “Back & Bi Cable”
-        List<Exercise> legsBW = new java.util.ArrayList<>();   // “Leg Burn”
+        List<Exercise> core = new ArrayList<>();
+        List<Exercise> backCable = new ArrayList<>();
+        List<Exercise> legsBW = new ArrayList<>();
         List<Exercise> chestMachine = new ArrayList<>();
         List<Exercise> assistedAbs = new ArrayList<>();
         List<Exercise> latsMachine = new ArrayList<>();
         List<Exercise> barbellArms = new ArrayList<>();
         List<Exercise> fullBarbell = new ArrayList<>();
 
-
-        // ----‑‑‑‑ single pass over the master list ----‑‑‑‑
         for (Exercise e : list) {
+            if (!isValidGifUrl(e.getGifUrl())) continue;
 
-            /* 1) Add first 5 waist/abs moves to 'core' */
             if ("waist".equals(e.getBodyPart()) && core.size() < 5) {
                 core.add(e);
             }
-
-            /* 2) Back exercises that use a cable machine */
-            if ("back".equals(e.getBodyPart()) && "cable".equals(e.getEquipment())) {
+            if ("back".equals(e.getBodyPart()) && "cable".equals(e.getEquipment()) && backCable.size() < 5) {
                 backCable.add(e);
             }
-
-            /* 3) Upper‑leg exercises that need only body weight */
-            if ("upper legs".equals(e.getBodyPart()) && "body weight".equals(e.getEquipment())) {
+            if ("upper legs".equals(e.getBodyPart()) && "body weight".equals(e.getEquipment()) && legsBW.size() < 5) {
                 legsBW.add(e);
             }
             if ("chest".equals(e.getBodyPart()) && "leverage machine".equals(e.getEquipment()) && chestMachine.size() < 5) {
@@ -152,15 +146,14 @@ public class ExerciseViewModel extends ViewModel {
             if ("upper arms".equals(e.getBodyPart()) && "barbell".equals(e.getEquipment()) && barbellArms.size() < 5) {
                 barbellArms.add(e);
             }
-            if (e.getEquipment().equals("barbell") &&
-                    (e.getBodyPart().equals("glutes") || e.getBodyPart().equals("quads") || e.getBodyPart().equals("back"))
-                    && fullBarbell.size() < 5) {
+            if ("barbell".equals(e.getEquipment()) &&
+                    (e.getBodyPart().equals("glutes") || e.getBodyPart().equals("quads") || e.getBodyPart().equals("back")) &&
+                    fullBarbell.size() < 5) {
                 fullBarbell.add(e);
             }
         }
 
-        // ----‑‑‑‑ wrap each list in a WorkoutProgram ----‑‑‑‑
-        List<WorkoutProgram> out = new java.util.ArrayList<>();
+        List<WorkoutProgram> out = new ArrayList<>();
         out.add(new WorkoutProgram(WorkoutProgram.Type.CORE, "Core Blast", core));
         out.add(new WorkoutProgram(WorkoutProgram.Type.BACK_CABLE, "Back & Bi Cable", backCable));
         out.add(new WorkoutProgram(WorkoutProgram.Type.LEGS_BODYWEIGHT, "Leg Burn", legsBW));
@@ -172,6 +165,12 @@ public class ExerciseViewModel extends ViewModel {
 
         return out;
     }
+
+    // 🔹 Utility method
+    private boolean isValidGifUrl(String url) {
+        return url != null && url.startsWith("https://v2.exercisedb.io/image/") && url.length() > 30;
+    }
+
 
 
     public void fetchExercises() {
