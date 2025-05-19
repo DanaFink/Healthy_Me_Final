@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import com.dana_f.model.WorkoutProgram;
 import com.dana_f.tashtit.ACTIVITIES.BASE.BaseActivity;
 import com.dana_f.tashtit.ADPTERS.ExericesesAdapter;
 import com.dana_f.tashtit.R;
+import com.dana_f.viewmodel.CustomerViewModel;
 import com.dana_f.viewmodel.ExerciseViewModel;
 
 public class WorkOutExerciseActivity extends BaseActivity implements EntryValidation {
@@ -109,12 +112,45 @@ public class WorkOutExerciseActivity extends BaseActivity implements EntryValida
                     Glide.with(imgGIF.getContext()).load(exercise.getGifUrl()).into(imgGIF);
                 }
         );
+        adapter.setOnItemLongClickListener((exercise, position) -> {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Remove Exercise")
+                    .setMessage("Are you sure you want to remove this exercise?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        oldWorkout.getExercises().remove(position);
+                        adapter.notifyItemRemoved(position);
+                        saveUpdatedProgramToFirebase();
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
+
+            return true;
+        });
 
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
         rvExercises.setAdapter(adapter);
 
 
     }
+    private void saveUpdatedProgramToFirebase() {
+        CustomerViewModel customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
+
+        // Match by title and type (or any other distinguishing attribute)
+        for (int i = 0; i < BaseActivity.currentMember.getPrograms().size(); i++) {
+            WorkoutProgram wp = BaseActivity.currentMember.getPrograms().get(i);
+
+            if (wp.getTitle().equals(oldWorkout.getTitle()) && wp.getType() == oldWorkout.getType()) {
+                BaseActivity.currentMember.getPrograms().set(i, oldWorkout);
+                break;
+            }
+        }
+
+        customerViewModel.update(BaseActivity.currentMember);
+        Toast.makeText(this, "Exercise removed and saved", Toast.LENGTH_SHORT).show();
+    }
+
 
 
     @Override

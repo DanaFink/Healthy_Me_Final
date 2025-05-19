@@ -93,7 +93,7 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                viewModel.filterByName(newText); // we'll make this method
+                viewModel.filterByName(newText);
                 return true;
             }
         });
@@ -341,7 +341,6 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
 
             }
         });
-
     }
 
     @Override

@@ -64,7 +64,6 @@ public class HealthProfile extends BaseEntity implements Serializable {
         this.dailyCalorieGoal = dailyCalorieGoal;
     }
 
-    // Optional: helper methods
     public int calculateBMI() {
         double heightM = heightCm / 100.0;
         return (int) (weightKg / (heightM * heightM));
