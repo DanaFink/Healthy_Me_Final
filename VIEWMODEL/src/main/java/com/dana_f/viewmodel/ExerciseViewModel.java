@@ -69,6 +69,16 @@ public class ExerciseViewModel extends ViewModel {
     }
 
 
+    public void filterByEquipmentOnly() {
+        List<Exercise> filtered = new ArrayList<>();
+        for (Exercise ex : allExercises) {
+            if (!"body weight".equalsIgnoreCase(ex.getEquipment())) {
+                filtered.add(ex);
+            }
+        }
+        exercisesLiveData.postValue(filtered);
+    }
+
     public void filterByName(String query) {
         if (TextUtils.isEmpty(query)) {
             // If search is empty -> show all

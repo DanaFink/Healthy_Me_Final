@@ -107,7 +107,13 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
                 if (position == 0) { // "All" option
                     checkBox.setChecked(false);    // Reset checkbox
                     viewModel.fetchExercises();
-                    viewModel.getExercises();// Show full list
+                    viewModel.getExercises().observe(AddExercisesActivity.this, new Observer<List<Exercise>>() {
+                        @Override
+                        public void onChanged(List<Exercise> exercises) {
+                            adapter.setItems(exercises);
+                            exercises1=exercises;
+                        }
+                    });
                 } else {
                     viewModel.filterByBodyPartAndEquipment(selectedBodyPart, checkBox.isChecked());
                 }
@@ -120,13 +126,23 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
         });
 
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // If checked, filter by equipment
-                Object selectedItem = spinnerBodyPart.getSelectedItem();
-                String selectedBodyPart = (selectedItem != null) ? selectedItem.toString() : "";
+            Object selectedItem = spinnerBodyPart.getSelectedItem();
+            String selectedBodyPart = (selectedItem != null) ? selectedItem.toString() : "";
+
+            if (selectedBodyPart.contains("All")) {
+                if (isChecked) {
+                    // Filter only exercises that use equipment (exclude bodyweight)
+                    viewModel.filterByEquipmentOnly();
+                } else {
+                    // Reset to show everything
+                    viewModel.fetchExercises();
+                }
+            } else {
                 viewModel.filterByBodyPartAndEquipment(selectedBodyPart, isChecked);
             }
         });
+
+
 
     }
 
