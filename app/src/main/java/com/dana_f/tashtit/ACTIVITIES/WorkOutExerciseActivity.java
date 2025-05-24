@@ -76,8 +76,7 @@ public class WorkOutExerciseActivity extends BaseActivity implements EntryValida
                 oldWorkout.getExercises(), // List<Exercise>
                 R.layout.iteam_exercise, // Your item layout
                 (view) -> {
-                    // Initialize ViewHolder here
-                    // You usually don't need to do anything, unless you want to setup click listeners etc.
+
                 },
                 (holder, exercise, position) -> {
                     // Bind the Exercise data to the ViewHolder views here
