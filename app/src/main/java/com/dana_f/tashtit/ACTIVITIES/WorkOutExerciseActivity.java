@@ -58,29 +58,7 @@ public class WorkOutExerciseActivity extends BaseActivity implements EntryValida
         setRecyclerView();
     }
 
-//    private void getExtras() {
-//        if (getIntent().hasExtra("WORKOUT")) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                oldWorkout = getIntent().getSerializableExtra("WORKOUT", WorkoutProgram.class);
-//
-//                if (oldWorkout != null) {
-//                    tvBodyPart.setText(oldWorkout.ge);
-//                    etName.setText(oldMember.getName());
-//                    etPhone.setText(oldMember.getPhone());
-//                    etAddress.setText(oldMember.getAddress());
-//                    spnCity.setSelection(findCityIndexByIdFs(oldMember.getCityId()));
-//
-//                    etEmail.setText(oldMember.getEmail());
-//                    //etPassword.setText(oldMember.getPassword());
-//                    //etRePassword.setText(oldMember.getPassword());
-////                    if (oldMember.getPhoto() != null) {
-////                        bitmapPhoto = BitMapHelper.decodeBase64(oldMember.getPhoto());
-////                        ivMember.setImageBitmap(bitmapPhoto);
-////                    }
-//                }
-//            }
-//        }
-//    }
+
 
     @Override
     protected void initializeViews() {
