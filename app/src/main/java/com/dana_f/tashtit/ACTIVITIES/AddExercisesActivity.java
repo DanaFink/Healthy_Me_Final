@@ -194,7 +194,7 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = BaseActivity.currentMember.getIdFs(); // Adjust if your ID is stored differently
 
-        db.collection("customers") // or "members" if you use that instead
+        db.collection("Customers")
                 .document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
