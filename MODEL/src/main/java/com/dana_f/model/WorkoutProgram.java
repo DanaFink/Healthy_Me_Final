@@ -8,6 +8,8 @@ public class WorkoutProgram implements Serializable {
     public Type type;
     public String title;
     public List<Exercise> exercises;
+    private String imgBase64;
+
 
 
     public WorkoutProgram() {
@@ -34,7 +36,13 @@ public class WorkoutProgram implements Serializable {
         this.title = title;
         this.exercises = exercises;
     }
+    public String getImgBase64() {
+        return imgBase64;
+    }
 
+    public void setImgBase64(String imgBase64) {
+        this.imgBase64 = imgBase64;
+    }
     public String getTitle() {
         return title;
     }

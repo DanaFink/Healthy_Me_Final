@@ -1,20 +1,28 @@
 package com.dana_f.tashtit.ACTIVITIES;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dana_f.helper.BitMapHelper;
 import com.dana_f.helper.inputValidators.EntryValidation;
 import com.dana_f.model.Customer;
 import com.dana_f.model.Exercise;
@@ -36,8 +45,10 @@ import com.dana_f.viewmodel.CustomerViewModel;
 import com.dana_f.viewmodel.ExerciseViewModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AddExercisesActivity extends BaseActivity implements EntryValidation {
     private Spinner spinnerBodyPart;
@@ -49,6 +60,8 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
     private ExericesesAdapter adapter;
     private CustomerViewModel customerViewModel;
     private List<Exercise> exercises1;
+    private Bitmap selectedProgramImage = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,16 +176,96 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
                 })
                 .show();
     }
+    private void showImagePickerDialog(Consumer<Bitmap> onImageSelected) {
+        String[] options = {"Camera", "Gallery"};
+        new AlertDialog.Builder(this)
+                .setTitle("Select Image Source")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, REQUEST_CAMERA);
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, REQUEST_GALLERY);
+                    }
+                    this.onImagePickedCallback = onImageSelected;
+                })
+                .show();
+    }
+    private static final int REQUEST_CAMERA = 1001;
+    private static final int REQUEST_GALLERY = 1002;
+
+    private Consumer<Bitmap> onImagePickedCallback;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && onImagePickedCallback != null) {
+            Bitmap bitmap = null;
+
+            try {
+                if (requestCode == REQUEST_CAMERA && data != null) {
+                    bitmap = (Bitmap) data.getExtras().get("data");
+                } else if (requestCode == REQUEST_GALLERY && data != null) {
+                    Uri imageUri = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                }
+
+                if (bitmap != null) {
+                    onImagePickedCallback.accept(bitmap);
+                    onImagePickedCallback = null;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void createNewProgramWithExercise(Exercise exercise) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("New Program Name");
 
-        // Set up the input
-        final EditText input = new EditText(this);
+//        // Set up the input
+//        final EditText input = new EditText(this);
+//        input.setHint("Enter program name");
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        builder.setView(input);
+
+
+        // Create layout for input + image selection
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);
+
+        EditText input = new EditText(this);
         input.setHint("Enter program name");
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        layout.addView(input);
+
+        ImageView imagePreview = new ImageView(this);
+        imagePreview.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                500
+        ));
+        imagePreview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        layout.addView(imagePreview);
+
+        Button chooseImageBtn = new Button(this);
+        chooseImageBtn.setText("Choose Image");
+        layout.addView(chooseImageBtn);
+
+        builder.setView(layout);
+
+        chooseImageBtn.setOnClickListener(v -> {
+            showImagePickerDialog(image -> {
+                selectedProgramImage = image;
+                imagePreview.setImageBitmap(image); // show preview
+            });
+        });
 
         // Set up the buttons
         builder.setPositiveButton("Create", (dialog, which) -> {
@@ -185,6 +278,10 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
                 exercises.add(exercise);
 
                 WorkoutProgram newProgram = new WorkoutProgram(WorkoutProgram.Type.CUSTOM, programName, exercises);
+                if (selectedProgramImage != null) {
+                    Bitmap resized = BitMapHelper.resizeBitmap(selectedProgramImage, 512);
+                    newProgram.setImgBase64(BitMapHelper.encodeTobase64(resized));
+                }
 
                 // --- Update Customer ---
                 if (BaseActivity.currentMember.getPrograms() == null) {

@@ -1,6 +1,7 @@
 package com.dana_f.tashtit.ACTIVITIES;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dana_f.helper.BitMapHelper;
 import com.dana_f.helper.inputValidators.EntryValidation;
 import com.dana_f.model.Customer;
 import com.dana_f.model.Customers;
@@ -194,39 +196,44 @@ public class FirstPageActivity extends BaseActivity implements EntryValidation {
                             .setText("Exercises: " + (item.getExercises() != null ? item.getExercises().size() : 0));
 
                     ImageView thumb = holder.getView("img");
-                    int resId;
-                    switch (item.getType()) {               // enum Type in WorkoutProgram
-                        case CORE:
-                            resId = R.drawable.core_thumb;
-                            break;
-                        case BACK_CABLE:
-                            resId = R.drawable.back_bi_thumb;
-                            break;
-                        case LEGS_BODYWEIGHT:
-                            resId = R.drawable.leg_burn_thumb;
-                            break;
-                        case CHEST_MACHINE:
-                            resId = R.drawable.chest_thumb;
-                            break;
 
-                        case ASSISTED_ABS:
-                            resId = R.drawable.abs_thumb;
-                            break;
-                        case LATS_MACHINE:
-                            resId = R.drawable.lats_thumb;
-                            break;
-
-                        case ARMS_BARBELL:
-                            resId = R.drawable.barbelle;
-                            break;
-                        case FULL_BODY_BARBELL:
-                            resId = R.drawable.full_body_thumb;
-                            break;
-                        default:
-                            resId = R.drawable.cardio;
-                            break;
+                    if (item.getImgBase64() != null && !item.getImgBase64().isEmpty()) {
+                        Bitmap bitmap = BitMapHelper.decodeBase64(item.getImgBase64());
+                        thumb.setImageBitmap(bitmap);
+                    } else {
+                        int resId;
+                        switch (item.getType()) {
+                            case CORE:
+                                resId = R.drawable.core_thumb;
+                                break;
+                            case BACK_CABLE:
+                                resId = R.drawable.back_bi_thumb;
+                                break;
+                            case LEGS_BODYWEIGHT:
+                                resId = R.drawable.leg_burn_thumb;
+                                break;
+                            case CHEST_MACHINE:
+                                resId = R.drawable.chest_thumb;
+                                break;
+                            case ASSISTED_ABS:
+                                resId = R.drawable.abs_thumb;
+                                break;
+                            case LATS_MACHINE:
+                                resId = R.drawable.lats_thumb;
+                                break;
+                            case ARMS_BARBELL:
+                                resId = R.drawable.barbelle;
+                                break;
+                            case FULL_BODY_BARBELL:
+                                resId = R.drawable.full_body_thumb;
+                                break;
+                            default:
+                                resId = R.drawable.cardio;
+                                break;
+                        }
+                        thumb.setImageResource(resId);
                     }
-                    thumb.setImageResource(resId);
+
                 })
         );
 
