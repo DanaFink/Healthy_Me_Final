@@ -147,6 +147,7 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
     }
 
 
+
     private void showExerciseOptionsDialog(Exercise exercise) {
         new androidx.appcompat.app.AlertDialog.Builder(AddExercisesActivity.this)
                 .setTitle("Add Exercise to Program")
@@ -178,6 +179,8 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
             String programName = input.getText().toString().trim();
 
             if (!programName.isEmpty()) {
+
+
                 List<Exercise> exercises = new ArrayList<>();
                 exercises.add(exercise);
 
@@ -232,6 +235,15 @@ public class AddExercisesActivity extends BaseActivity implements EntryValidatio
                                 .setTitle("Select a Program")
                                 .setItems(programNames, (dialog, which) -> {
                                     WorkoutProgram selectedProgram = existingPrograms.get(which);
+
+                                    for (Exercise ex : selectedProgram.getExercises()) {
+                                        if (exercise.getId().equals(ex.getId())) {
+                                            showToast("This exercise already exists in this program.");
+                                            return;
+                                        }
+                                    }
+
+
                                     selectedProgram.getExercises().add(exercise);
 
                                     showToast(exercise.getName() + " added to " + selectedProgram.getTitle());
