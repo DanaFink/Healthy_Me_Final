@@ -16,18 +16,18 @@
             android:id="@+id/imgGIF"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="fitCenter"
             android:contentDescription="Exercise Image"
+            android:scaleType="fitCenter"
             android:src="@drawable/back_bi_thumb" />
 
         <TextView
             android:id="@+id/tvBodyPart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Body Part: waist"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvName"

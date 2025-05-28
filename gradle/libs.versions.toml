@@ -14,6 +14,9 @@ googleFirebaseDatabase = "20.3.0"
 firebaseFirestore = "25.0.0"
 playServicesTasks = "18.2.0"
 securityCrypto = "1.0.0"
+picasso = "2.8"
+mpandroidchart = "v3.1.0"
+roomCompiler = "2.7.1"
 
 [libraries]
 firebase-database = { module = "com.google.firebase:firebase-database", version.ref = "firebaseDatabase" }
@@ -30,6 +33,9 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 play-services-tasks = { module = "com.google.android.gms:play-services-tasks", version.ref = "playServicesTasks" }
 security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
+mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

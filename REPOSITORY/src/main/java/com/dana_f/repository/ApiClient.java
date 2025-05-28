@@ -1,4 +1,5 @@
 package com.dana_f.repository;
+import com.dana_f.tashtit.BuildConfig;
 
 import com.google.gson.Gson;
 
@@ -8,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class ApiClient {
+    static String apiKey = BuildConfig.REPOSITORY_API_KEY;
 
     public static final String RAPID_API_URL = "https://exercisedb.p.rapidapi.com/";  //Bse url of the ExerciseDN api
     public static final String EXCERCISES_URL = RAPID_API_URL + "exercises"; //appened exericeses to the base URL to acces the Exercise data
@@ -25,9 +27,12 @@ public class ApiClient {
         return client;
     }
 
+
+
+
     private static Request.Builder createBaseRequest() {
         return new Request.Builder()
-                .addHeader("X-RapidAPI-Key", "8cc51390e1mshbd145b7a8a4d03cp1bfbc3jsn035e30238942")  //my api key for Rapid
+                .addHeader("X-RapidAPI-Key", apiKey)  //my api key for Rapid
                 .addHeader("x-rapidapi-host", "exercisedb.p.rapidapi.com")  //Host name of the API
                 .addHeader("Content-Type", "application/json");  //Tells the server to expect json
     }

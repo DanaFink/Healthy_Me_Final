@@ -1,14 +1,18 @@
 package com.dana_f.repository;
 
+import com.dana_f.tashtit.BuildConfig;
+
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+
 public class SpoonacularApiClient {
 
     public static final String BASE_URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/";
     public static final String MEAL_PLAN_URL = BASE_URL + "recipes/mealplans/generate";
+    static String apiKey = BuildConfig.REPOSITORY_API_KEY;
 
     private static OkHttpClient client;
 
@@ -20,9 +24,11 @@ public class SpoonacularApiClient {
         return client;
     }
 
+
+
     private static Request.Builder createBaseRequest() {
         return new Request.Builder()
-                .addHeader("x-rapidapi-key", "8cc51390e1mshbd145b7a8a4d03cp1bfbc3jsn035e30238942")
+                .addHeader("x-rapidapi-key", apiKey)
                 .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
                 .addHeader("Content-Type", "application/json");
     }
